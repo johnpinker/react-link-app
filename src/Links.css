@@ -1,0 +1,23 @@
+
+.LinkWrapper {
+    padding: 10px;
+    border: 1px solid #000;
+}
+
+.LinkA {
+    padding: 10px;
+    color: black;
+    
+}
+
+li {
+    padding: 2px;
+}
+
+.LinkButton {
+    margin-right: 5px;
+}
+
+.LinkInput {
+    width: 45%;
+}
