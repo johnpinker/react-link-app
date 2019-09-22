@@ -2,7 +2,12 @@ import React from 'react';
 import Link from './Link';
 import './ListOfLinks.css';
 import LinkStore from './LinkStore';
-import Octicon, {Plus} from '@primer/octicons-react'
+import Octicon, {Plus} from '@primer/octicons-react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 
 class ListOfLinks extends React.Component {
     urllist;
@@ -21,16 +26,16 @@ class ListOfLinks extends React.Component {
     render() {
         let listVar = this.state.links.map((l, index) => <Link link={l} key={l.id} onUpdate={this.updateLinkList}></Link>);
         return(
-        <div id="listWrapper" className="container">
-            <div className="row justify-content-center">
-                <div className="col-10">
-                    <ul>
+        <Container>
+            <Row>
+                <Col>
+                    <ListGroup variant="flush">
                         {listVar}
-                    </ul>
-                </div>
-            </div>
-            <button onClick={this.addLink}><Octicon icon={Plus}/></button>
-        </div>);
+                    </ListGroup>
+                </Col>
+            </Row>
+            <Button onClick={this.addLink} variant="outline-primary"><Octicon icon={Plus}/></Button>
+        </Container>);
     }
 
     addLink(e) {

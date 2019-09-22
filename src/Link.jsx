@@ -1,6 +1,10 @@
 import React from 'react';
 import Octicon, {Pencil, Check, Trashcan} from '@primer/octicons-react'
 import './Links.css'
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
 
 class Link extends React.Component {
     constructor(props){
@@ -15,22 +19,27 @@ class Link extends React.Component {
     render() {
         if (!this.state.edit)
             return( 
-            <li>
-                <div className="LinkWrapper">
+            <ListGroup.Item>
                     <a className="LinkA" href={this.state.href} target="_blank" rel="noopener noreferrer">{this.state.name}</a>
-                    
-                    <button className="LinkButton" onClick={this.toggleEdit}><Octicon icon={Pencil}/></button>
-                    <button className="LinkButton" onClick={this.removeLink}><Octicon icon={Trashcan}/></button>
-                </div>
-            </li>
+                    <Button type="button" onClick={this.toggleEdit} size="sm" variant="outline-primary"><Octicon icon={Pencil}/></Button>
+                    <Button type="button" onClick={this.removeLink} size="sm" variant="outline-primary"><Octicon icon={Trashcan}/></Button>
+            </ListGroup.Item>
             );
         else 
             return(
-                <div className="column">
-                    <input className="LinkInput" type="text" value={this.state.href} onChange={this.handleUrlChange}></input>
-                    <input className="LinkInput" type="text" value={this.state.name} onChange={this.handleNameChange}></input>
-                    <button className="LinkButton" onClick={this.toggleEdit}><Octicon icon={Check}/></button>
-                </div>
+                <ListGroup.Item>
+                    <InputGroup className="mb-3">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text id="inputGroup-sizing-default">URL</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl value={this.state.href} onChange={this.handleUrlChange}></FormControl>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text id="inputGroup-sizing-default">Name</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl value={this.state.name} onChange={this.handleNameChange}></FormControl>
+                    </InputGroup>
+                    <Button type="button" onClick={this.toggleEdit} variant="outline-primary" size="sm"><Octicon icon={Check}/></Button>
+                </ListGroup.Item>
             );
     }
     
