@@ -17,7 +17,7 @@ class Link extends React.Component {
             return( 
             <li>
                 <div className="LinkWrapper">
-                    <a className="LinkA" href={this.state.href} target="_blank">{this.state.name}</a>
+                    <a className="LinkA" href={this.state.href} target="_blank" rel="noopener noreferrer">{this.state.name}</a>
                     
                     <button className="LinkButton" onClick={this.toggleEdit}><Octicon icon={Pencil}/></button>
                     <button className="LinkButton" onClick={this.removeLink}><Octicon icon={Trashcan}/></button>
@@ -36,12 +36,10 @@ class Link extends React.Component {
     
     handleUrlChange(e) {
         this.setState({href: e.target.value});
-        //this.props.onUpdate(this.state.id, this.state.name, this.state.href);
     }
 
     handleNameChange(e) {
         this.setState({name: e.target.value});
-        //this.props.onUpdate(this.state.id, this.state.name, this.state.href);
     }
 
     toggleEdit(e) {

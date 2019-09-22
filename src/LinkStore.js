@@ -20,6 +20,16 @@ class LinkStore {
     UpdateLinks(links) {
         localStorage.setItem("links", JSON.stringify(links));
     }
+
+    GetNewId() {
+        let links = this.GetAllLinks();
+        let i=1;
+        let idList = links.map((x) => x.id);
+        while (idList.indexOf(i) !== -1) {
+            i++;
+        }
+        return i;
+    }
 }
 
 export default LinkStore;

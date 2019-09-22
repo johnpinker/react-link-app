@@ -34,7 +34,9 @@ class ListOfLinks extends React.Component {
     }
 
     addLink(e) {
-        this.updateLinkList(this.state.links.length+1, "ReplaceMe", "http://www.replaceme.com");
+        let ls = new LinkStore();
+        let newId = ls.GetNewId();
+        this.updateLinkList(newId, "ReplaceMe", "http://www.replaceme.com");
     }
 
     updateLinkList(id, name, url, remove) {
@@ -50,7 +52,6 @@ class ListOfLinks extends React.Component {
                 this.urllist[i].href = url;
                 this.urllist[i].name = name;
                 this.setState({links: this.urllist});
-                //alert(this.urllist[i].id);
                 links.UpdateLinks(this.urllist);
                 return;
             }
