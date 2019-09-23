@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from './Link';
 import './ListOfLinks.css';
-import LinkStore from './LinkStore';
+import LinkStore from '../LinkStore';
 import Octicon, {Plus} from '@primer/octicons-react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,11 +9,12 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
+
 class ListOfLinks extends React.Component {
     urllist;
     itemList;
-    constructor(props) {
-      super(props);
+    constructor() {
+      super();
       let links = new LinkStore();
       this.urllist = links.GetAllLinks();
       this.state = {links: this.urllist};
