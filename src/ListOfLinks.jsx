@@ -34,7 +34,12 @@ class ListOfLinks extends React.Component {
                     </ListGroup>
                 </Col>
             </Row>
-            <Button onClick={this.addLink} variant="outline-primary"><Octicon icon={Plus}/></Button>
+            <Row>
+                <Col></Col>
+                <Col xs="4">
+                <span id="addNewSpan">Add New Link</span><Button onClick={this.addLink} variant="outline-primary" size="sm"><Octicon icon={Plus}/></Button>
+                </Col>
+            </Row>
         </Container>);
     }
 

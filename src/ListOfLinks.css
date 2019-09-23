@@ -3,7 +3,9 @@ ul {
     list-style-type: none;
 }
 
-#listWrapper {
-    padding: 25px;
-    margin-bottom: 60px;
+
+
+#addNewSpan {
+    padding: 10px;
 }
+
