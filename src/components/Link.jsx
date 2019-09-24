@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 class Link extends React.Component {
     constructor(props){
         super(props);
-        console.log(props);
         this.state = {edit: false, id: props.link._id, href: props.link.href, name: props.link.name};
         this.toggleEdit = this.toggleEdit.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
