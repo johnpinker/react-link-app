@@ -11,43 +11,58 @@ import Button from 'react-bootstrap/Button';
 
 
 class ListOfLinks extends React.Component {
-    urllist;
-    itemList;
+
+    componentDidMount() {
+        let links = new LinkStore();
+        links.GetAllLinks()
+        .then(resp => {
+            this.setState({links: resp, loading: false });
+        });
+
+    }
     constructor() {
-      super();
-      let links = new LinkStore();
-      this.urllist = links.GetAllLinks();
-      this.state = {links: this.urllist};
-      this.updateLinkList = this.updateLinkList.bind(this);
-      this.addLink = this.addLink.bind(this);
-      this.itemList = this.urllist.map((l, index) => <Link link={l} key={l.id} onUpdate={this.updateLinkList}></Link>);
+        super();
+        this.updateLinkList = this.updateLinkList.bind(this);
+        this.addLink = this.addLink.bind(this);
+        this.state = {links: [], loading: true };
     }
 
 
     render() {
-        let listVar = this.state.links.map((l, index) => <Link link={l} key={l.id} onUpdate={this.updateLinkList}></Link>);
+        const {loading, links} = this.state;
+        if (loading) {
+            return (<div>Loading...</div>)
+        } else {
         return(
-        <Container>
-            <Row>
-                <Col>
-                    <ListGroup variant="flush">
-                        {listVar}
-                    </ListGroup>
-                </Col>
-            </Row>
-            <Row>
-                <Col></Col>
-                <Col xs="4">
-                <span id="addNewSpan">Add New Link</span><Button onClick={this.addLink} variant="outline-primary" size="sm"><Octicon icon={Plus}/></Button>
-                </Col>
-            </Row>
-        </Container>);
+            <Container>
+                <Row>
+                    <Col>
+                        <ListGroup variant="flush">
+                            {links.map((l, index) => <Link link={l} key={l._id} onUpdate={this.updateLinkList}></Link>)}
+                        </ListGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col></Col>
+                    <Col xs="4">
+                    <span id="addNewSpan">Add New Link</span><Button onClick={this.addLink} variant="outline-primary" size="sm"><Octicon icon={Plus}/></Button>
+                    </Col>
+                </Row>
+            </Container>);
+        }
     }
 
     addLink(e) {
+        const newName = "ReplaceMe";
+        const newHref = "http://www.replaceme.com";
         let ls = new LinkStore();
-        let newId = ls.GetNewId();
-        this.updateLinkList(newId, "ReplaceMe", "http://www.replaceme.com");
+        ls.addLink(newName, newHref).then(resp => {
+            let newId = resp._id;
+            let urllist = this.state.links.slice();
+            urllist.push({_id: newId, name: newName, href: newHref});
+            this.setState({links: urllist});
+        });
+
     }
 
     updateLinkList(id, name, url, remove) {
@@ -57,36 +72,25 @@ class ListOfLinks extends React.Component {
         }
         this.urllist = this.state.links;
         let links = new LinkStore();
-        for (let i=0; i < this.urllist.length; i++) {
-           
-            if (this.urllist[i].id === id) {
-                this.urllist[i].href = url;
-                this.urllist[i].name = name;
-                this.setState({links: this.urllist});
-                links.UpdateLinks(this.urllist);
-                return;
-            }
-        }
-        this.urllist.push({id: this.urllist.length+1, href: url, name: name});
-        this.setState({links: this.urllist});
-        links.UpdateLinks(this.urllist);
-        this.forceUpdate();
+        links.UpdateLink(id, name, url).then(
+            (r) => {
+                links.GetAllLinks()
+                .then(resp => {
+                this.setState({links: resp, loading: false });
+                });
+            });
     }
 
     removeLink(id, name, url) {
-        this.urllist = this.state.links;
         let links = new LinkStore();
-        let tmpLinks = [];
-        for (let i=0; i < this.urllist.length; i++) {
-           
-            if (this.urllist[i].id !== id) {
-                tmpLinks.push(this.urllist[i]);
-            }
-        }
-        links.UpdateLinks(tmpLinks);
-        this.urllist = tmpLinks;
-        this.setState({links: this.urllist});
-        this.forceUpdate();
+        links.removeLink(id).then( resp => {
+            if (resp._id === undefined)
+                console.log("error removing link " + id);
+                links.GetAllLinks()
+                .then(resp => {
+                    this.setState({links: resp, loading: false });
+                });
+        });
     }
 }
 

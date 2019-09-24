@@ -1,35 +1,40 @@
 
 class LinkStore {
 
-    GetAllLinks() {
-        let linkString = localStorage.getItem("links");
-        let links;
-        if (linkString === null)
-        {
-            links = [ {id: 1, href: "http://www.yahoo.com", name: "Yahoo"} ,
-            {id: 2, href: "http://www.yahoo.com", name: "Yahoo"}];
-            localStorage.setItem("links", JSON.stringify(links));
-        }
-        else {
-            links = JSON.parse(linkString);
+    async GetAllLinks() {
+
+        return fetch('http://localhost:8000/links', {mode: 'cors'})
+        .then( resp => resp.json());
+    }
+
+    UpdateLink(id, name, href) {
+      console.log(JSON.stringify({name, href}));
+      return fetch('http://localhost:8000/links/'+id, 
+        {mode: 'cors', method: 'PUT', 
+        body: "name="+encodeURIComponent(name) + "&href=" + encodeURIComponent(href),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+        .then(resp => {
+          if (resp.status !== 200) {
+            console.log("Error updating " + name + " " + href);
             
-        }
-        return links;
+          }
+        });
     }
 
-    UpdateLinks(links) {
-        localStorage.setItem("links", JSON.stringify(links));
+    removeLink(id) {
+      return fetch('http://localhost:8000/links/'+id,
+      {mode: 'cors', method: 'DELETE'})
+      .then(resp => resp.json());
+    }
+    
+    addLink(name, href) {
+      return fetch('http://localhost:8000/links/',
+      {mode: 'cors', method: 'POST'})
+      .then(resp => resp.json());
     }
 
-    GetNewId() {
-        let links = this.GetAllLinks();
-        let i=1;
-        let idList = links.map((x) => x.id);
-        while (idList.indexOf(i) !== -1) {
-            i++;
-        }
-        return i;
-    }
+
 }
 
 export default LinkStore;

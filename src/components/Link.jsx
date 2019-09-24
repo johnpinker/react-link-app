@@ -10,7 +10,8 @@ import PropTypes from 'prop-types';
 class Link extends React.Component {
     constructor(props){
         super(props);
-        this.state = {edit: false, id: props.link.id, href: props.link.href, name: props.link.name};
+        console.log(props);
+        this.state = {edit: false, id: props.link._id, href: props.link.href, name: props.link.name};
         this.toggleEdit = this.toggleEdit.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleUrlChange = this.handleUrlChange.bind(this);
@@ -22,8 +23,8 @@ class Link extends React.Component {
             return( 
             <ListGroup.Item>
                     <a className="LinkA" href={this.state.href} target="_blank" rel="noopener noreferrer">{this.state.name}</a>
-                    <Button type="button" onClick={this.toggleEdit} size="sm" variant="outline-primary"><Octicon icon={Pencil}/></Button>
-                    <Button type="button" onClick={this.removeLink} size="sm" variant="outline-primary"><Octicon icon={Trashcan}/></Button>
+                    <Button type="button" className="LinkButton" onClick={this.toggleEdit} size="sm" variant="outline-primary"><Octicon icon={Pencil}/></Button>
+                    <Button type="button" className="LinkButton" onClick={this.removeLink} size="sm" variant="outline-primary"><Octicon icon={Trashcan}/></Button>
             </ListGroup.Item>
             );
         else 
@@ -65,8 +66,7 @@ class Link extends React.Component {
 }
 
 Link.propType = {
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    href: PropTypes.string.isRequired
+    link: PropTypes.object.isRequired,
+    onUpdate: PropTypes.func.isRequired
 }
 export default Link;

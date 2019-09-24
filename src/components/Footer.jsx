@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Footer = (props) => {
+const Footer = ({footerText}) => {
     return <footer className="App-footer">
-    {props.footerText}
+    {footerText}
   </footer>
 }
 
